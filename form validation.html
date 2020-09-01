@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title> form validation 3 </title>
+  <!-- https://jsfiddle.net/amgnz/uBkuA/ -->
+  <meta name="Generator" content="EditPlus">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+
+  <script>
+  $(".ajax-form").validate({
+    rules: {
+      name: {
+        required: true,
+        minlength: 2
+      },
+      email: {
+        required: true,
+        email: true
+      },
+      message: {
+        required: true,
+        minlength: 5
+    }
+  },
+  errorPlacement: function(error, element) {
+  },
+  submitHandler: function(form) {
+    $.ajax({
+      dataType: "jsonp",
+      url: "http://getsimpleform.com/messages/ajax?form_api_token=<api-token>",
+      data: $(".ajax-form").serialize() 
+    }).done(function() {
+      //callback which can be used to show a thank you message
+      //and reset the form
+      $(".ajax-form").hide();
+      $(".form-thank-you").fadeIn("400");
+    });
+      return false; //to stop the form from submitting
+    }
+  });
+  </script>
+  
+  <style>
+	/* Normalize & Reset */
+
+	body {
+		font-family: Helvetica, Arial, sans-serif;
+		line-height: 1.5;
+		color: #777;
+		font-size: 18px;
+		-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+		-webkit-text-size-adjust: 100%;
+	}
+
+	button,
+	input,
+	textarea {
+		color: inherit; /* 1 */
+		font: inherit; /* 2 */
+		margin: 0; /* 3 */
+	}
+
+	*, :after, :before {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+
+	/* Form Styles */
+
+	.container { width: 100%; }
+	.ajax-form { width: 100%; }
+	.ajax-form input, 
+	.ajax-form textarea {
+		padding: 20px;
+		border: 3px solid #ccc;
+		border-radius: 6px;
+		margin: 0 0 27px;
+		background: #eee;
+		outline: none;
+		-webkit-transition: all .25s ease-in-out;
+		-moz-transition: all .25s ease-in-out;
+		-o-transition: all .25s ease-in-out;
+		transition: all .25s ease-in-out; 
+	}
+
+	.ajax-form input:focus, 
+	.ajax-form textarea:focus {
+		border: 3px solid #2735A7;
+		color: #424651;
+	}
+
+	.ajax-form input[type="submit"] {
+		border: 3px solid #2735A7;
+		color: #2735A7;
+	}
+
+	.ajax-form input[type="submit"]:hover {
+		background-color: #2735A7;
+		border: 3px solid #2735A7;
+		color: white;
+	}
+
+	.name, .email { width: 48%; }
+
+	.name { float: left; }
+	.email { float: right }
+
+	.message { width: 100%; }
+
+	.form-btn { text-align: center; }
+
+	.error { border: 3px solid #ED1941 !important; }
+	 
+	.form-thank-you {
+		display: none;
+		width: 100%;
+		text-align: center;
+	}
+
+	.form-thank-you h3 { padding-top: 15px; }
+
+	@media (max-width: 577px) {
+	  .name, .email { 
+		width: 100%; 
+		float: none;
+	  }
+
+	}
+  </style>
+
+ </head>
+
+ <body>
+
+	<div class="container">
+		<form action="#" class="ajax-form">
+			<input type="text" class="name" name="name" placeholder="Your name">
+			<input type="text" class="email" name="email" placeholder="Your email address">
+			<textarea name="message" class="message" placeholder="Enter your message"></textarea>
+			<div class="form-btn">
+				<input type="submit" class="submit" value="Submit">
+			</div>
+		</form>
+		 <div class="form-thank-you">
+			 <h3>Thank you for contacting me!</h3>
+			 <p>I'll be in touch with you shortly</p>
+		 </div>  
+	</div>
+
+ </body>
+</html>
